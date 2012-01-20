@@ -151,6 +151,7 @@ public class LlenarMenu {
             Item pays = new Item("Pagos", null, a);
             {
                 Item pago = new Item("Nuevo Pago", "PAG", "money.png", "getNewPago", a);
+                Item persPag = new Item("Lista de Personas a Pagar", "PAG", "85.png", "getPersonasAPagarGridFrame", a);
                 Item todos = new Item("Lista de Pagos", "PAG", "85.png", "getPagosGrid", a);
                 Item rem = new Item("Nueva Remesa",
                         "PAG", "money.png", "getNewRemesa", a);
@@ -158,6 +159,7 @@ public class LlenarMenu {
                         "PAG", "85.png", "getGridRemesa", a);
 
                 pays.getItems().add(pago);
+                pays.getItems().add(persPag);
                 pays.getItems().add(todos);
                 pays.getItems().add(rem);
                 pays.getItems().add(remList);

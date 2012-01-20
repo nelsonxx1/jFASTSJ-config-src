@@ -69,8 +69,15 @@ public class Crear {
                 buildSessionFactory().openSession();
 
         tx = s.beginTransaction();
+        String dropSeq = "DROP SEQUENCE seq_siniestro, seq_ordenpago, seq_remesa;";
+        s.createSQLQuery(dropSeq).executeUpdate();
         String seqSin = "CREATE SEQUENCE seq_siniestro INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_siniestro OWNER TO postgres;";
         s.createSQLQuery(seqSin).executeUpdate();
+        String seqOrd = "CREATE SEQUENCE seq_ordenpago  INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_ordenpago OWNER TO postgres;";
+        s.createSQLQuery(seqOrd).executeUpdate();
+        String seqRem = "CREATE SEQUENCE seq_remesa  INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_remesa OWNER TO postgres;";
+        s.createSQLQuery(seqRem).executeUpdate();
+
     }
 
     public void openNormal() {
@@ -173,7 +180,7 @@ public class Crear {
         list.add(new TipoSiniestro("Hospitalizacion - Maternidad - Parto Normal",
                 Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE,
                 Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, a));
-        list.add(new TipoSiniestro("Hospitalizacion - Maternidad - Cesaria", 
+        list.add(new TipoSiniestro("Hospitalizacion - Maternidad - Cesaria",
                 Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE,
                 Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, a));
         list.add(new TipoSiniestro("Ambulatoria - Tratamiento Medico",
