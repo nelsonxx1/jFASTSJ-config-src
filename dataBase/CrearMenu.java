@@ -14,7 +14,7 @@ import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
 /**
- *
+ * 
  * @author adrian
  */
 public class CrearMenu {
