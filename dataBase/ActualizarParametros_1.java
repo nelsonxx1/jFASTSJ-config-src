@@ -1,9 +1,6 @@
 package dataBase;
 
-import com.jswitch.asegurados.modelo.maestra.Asegurado;
 import com.jswitch.base.modelo.HibernateUtil;
-import com.jswitch.configuracion.modelo.dominio.patologias.Diagnostico;
-import com.jswitch.configuracion.modelo.transaccional.SumaAsegurada;
 import com.jswitch.siniestros.modelo.maestra.DiagnosticoSiniestro;
 import org.hibernate.classic.Session;
 
