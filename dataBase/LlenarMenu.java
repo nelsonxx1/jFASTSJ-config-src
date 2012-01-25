@@ -308,7 +308,7 @@ public class LlenarMenu {
                     mantSistema.getItems().add(configLnF);
                     Item configGen = new Item("Configuraciones Generales",
                             "MAN", "sharemanager.png", "getConfigGen", a);
-                    mantSistema.getItems().add(configLnF);
+                    mantSistema.getItems().add(configGen);
                 }
 
 
