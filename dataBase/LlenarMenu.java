@@ -198,7 +198,7 @@ public class LlenarMenu {
                 mantenimiento.getItems().add(pagos);
                 Item convenio = new Item("Convenios", null, a);
                 {
-                        Item pp = new Item("Descuento Pronto Pago",
+                    Item pp = new Item("Descuento Pronto Pago",
                             "CON", "poliza.png", "getProntoPago", a);
                     Item tm = new Item("Timbre Municipal",
                             "CON", "poliza.png", "getTimbreMunicipal", a);
@@ -303,8 +303,11 @@ public class LlenarMenu {
                         mantSistema.getItems().add(licencias);
                     }
 
-                    Item configLnF = new Item("Config Tiny LnF",
+                    Item configLnF = new Item("Configuracion Look and Feel",
                             "MAN", "settings.png", "getConfigLnF", a);
+                    mantSistema.getItems().add(configLnF);
+                    Item configGen = new Item("Configuraciones Generales",
+                            "MAN", "sharemanager.png", "getConfigGen", a);
                     mantSistema.getItems().add(configLnF);
                 }
 
