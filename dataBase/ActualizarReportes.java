@@ -55,6 +55,7 @@ public class ActualizarReportes {
         for (Reporte o : list) {
             s.saveOrUpdate(o);
         }
+        
         System.out.println("antes del comit");
 
         tx.commit();
