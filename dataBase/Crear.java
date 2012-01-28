@@ -27,6 +27,7 @@ import com.jswitch.asegurados.modelo.dominio.Parentesco;
 import com.jswitch.configuracion.modelo.maestra.Plan;
 import com.jswitch.configuracion.modelo.dominio.PlazoEspera;
 import com.jswitch.asegurados.modelo.dominio.TipoContrato;
+import com.jswitch.configuracion.modelo.dominio.Ramo;
 import com.jswitch.persona.modelo.maestra.LNPersonaNatural;
 import com.jswitch.pagos.modelo.dominio.ConceptoSENIAT;
 import com.jswitch.siniestros.modelo.dominio.EstatusSiniestro;
@@ -69,7 +70,7 @@ public class Crear {
                 buildSessionFactory().openSession();
 
         tx = s.beginTransaction();
-        String dropSeq = "DROP SEQUENCE seq_siniestro, seq_ordenpago, seq_remesa;";
+        String dropSeq = "DROP SEQUENCE IF EXISTS seq_siniestro, seq_ordenpago, seq_remesa;";
         s.createSQLQuery(dropSeq).executeUpdate();
         String seqSin = "CREATE SEQUENCE seq_siniestro INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_siniestro OWNER TO postgres;";
         s.createSQLQuery(seqSin).executeUpdate();
@@ -130,15 +131,21 @@ public class Crear {
         conceptoSENIAT(auditoriaActivo);
         tipoSiniestro(auditoriaActivo);
         etapaSiniestro(auditoriaActivo);
+        ramos(auditoriaActivo);
+    }
+
+    private void ramos(AuditoriaBasica a) {
+        s.save(new Ramo("HCM", "HCM",a));
+        s.save(new Ramo("FUNERARIO", "FUNE",a));
+        s.save(new Ramo("VIDA", "VIDA",a));
     }
 
     private void conceptoSENIAT(AuditoriaBasica a) {
         ArrayList<ConceptoSENIAT> list = new ArrayList<ConceptoSENIAT>(0);
         list.add(new ConceptoSENIAT("000", "Ninguno de Estos", 0d, a));
-        list.add(new ConceptoSENIAT("002", "honorarios profecionales (PJD)", 5d, a));
-        list.add(new ConceptoSENIAT("004", "honorarios profecionales (PNR)", 3d, a));
-        list.add(new ConceptoSENIAT("055", "Pago a empresas contratistas(PJD)", 2d, a));
-
+        list.add(new ConceptoSENIAT("002", "honorarios profecionales (PJD)", 0.05d, a));
+        list.add(new ConceptoSENIAT("004", "honorarios profecionales (PNR)", 0.03d, a));
+        list.add(new ConceptoSENIAT("055", "Pago a empresas contratistas(PJD)", 0.02d, a));
         for (ConceptoSENIAT o : list) {
             s.save(o);
         }
@@ -151,18 +158,19 @@ public class Crear {
             s.save(es[i]);
         }
         AuditoriaBasica a2 = new AuditoriaBasica(a.getFechaInsert(), a.getUsuarioInsert(), Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE);
-        list.add(new EtapaSiniestro("ANALIZANDO", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("RECAUDOS", Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("ARCHIVO", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("LIQUIDADO", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("CARTA COMPROMISO", Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("ADMINISTRACION", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("INGRESADO", Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("EGRESADO", Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
-        list.add(new EtapaSiniestro("PAGO DE GRACIA", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[1], a2));
-        list.add(new EtapaSiniestro("PAGO REGULAR", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[1], a2));
-        list.add(new EtapaSiniestro("POR ERROR", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[2], a2));
-        list.add(new EtapaSiniestro("RECHAZADO ", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[2], a2));
+        list.add(new EtapaSiniestro("ANALIZANDO", "ANA", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("RECAUDOS", "REC", Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("ARCHIVO", "FILE", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("LIQUIDADO", "LIQ", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("CARTA COMPROMISO", "CARTA", Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("ADMINISTRACION", "ORD_PAG", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("INGRESADO", "ING", Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("EGRESADO", "EGR", Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, es[0], a2));
+        list.add(new EtapaSiniestro("VIDA", "VIDA", Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, es[0], a2));
+        list.add(new EtapaSiniestro("PAGO DE GRACIA", "PAG-G", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[1], a2));
+        list.add(new EtapaSiniestro("PAGO REGULAR", "PAG", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[1], a2));
+        list.add(new EtapaSiniestro("POR ERROR", "NULL-E", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[2], a2));
+        list.add(new EtapaSiniestro("RECHAZADO", "NULL", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, es[2], a2));
 
         for (EtapaSiniestro o : list) {
             s.save(o);
@@ -497,15 +505,6 @@ public class Crear {
         bcobfc.getTiposPersona().add(tpBanco);
         dataPersona(bcobfc, a);
         s.save(bcobfc);
-
-        PersonaJuridica bcofederal = new PersonaJuridica();
-        bcofederal.setRif(new Rif(Dominios.TipoCedula.JURIDICO, 8511576, 5));
-        bcofederal.setNombreLargo("BANCO FEDERAL, C.A.");
-        bcofederal.setNombreCorto("FEDERAL");
-        bcofederal.setWeb("http://www.bancofederal.com/");
-        bcofederal.getTiposPersona().add(tpBanco);
-        dataPersona(bcofederal, a);
-        s.save(bcofederal);
 
         PersonaJuridica bcoprovincial = new PersonaJuridica();
         bcoprovincial.setRif(new Rif(Dominios.TipoCedula.JURIDICO, 2967, 9));

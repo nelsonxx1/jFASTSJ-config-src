@@ -36,7 +36,7 @@ public class ConfigFrame extends javax.swing.JFrame {
     private Licencia l = new Licencia();
     private byte[] sha256 = {31, -35, -28, -37, -15, -21, 90, 22, 46, 71, -99, 89, 72, -57, 101, -112, 86, -114, 28, -47, -89, -23, 93, 19, 73, 32, -17, -76, 88, 89, -47, -68};
     private byte[] md5 = {-112, 30, 11, 103, -81, 109, -46, 47, -8, 94, 79, -3, -17, -78, 54, 26};
-    private Usuario u = new Usuario("Orlando Becerra", "bcrra", md5, new AuditoriaBasica(), false, true, true);
+    private Usuario u = new Usuario("Switch Developers", "bcrra", md5, new AuditoriaBasica(), false, true, true);
 
     public ConfigFrame() {
         initComponents();
@@ -120,7 +120,11 @@ public class ConfigFrame extends javax.swing.JFrame {
         } else {
             jTextField8.setText("switch.developers@gmail.com");
             jTextField9.setText("switch.developers@gmail.com");
-            jTextField10.setText(System.getenv("HOME") + "/.Switch/Documentos");
+            String dir = "";
+            if (!System.getProperty("os.name").startsWith("Windows")) {
+                dir = System.getenv("HOME") + "/";
+            }
+            jTextField10.setText(dir + ".Switch/Documentos");
             jTextField11.setText("./Reportes/");
         }
     }
@@ -802,7 +806,7 @@ public class ConfigFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        new CrearMenu();        // TODO add your handling code here:
+        new CrearMenu();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -827,9 +831,8 @@ public class ConfigFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-       new ActualizarVistas();
+        new ActualizarVistas();
     }//GEN-LAST:event_jButton11ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
