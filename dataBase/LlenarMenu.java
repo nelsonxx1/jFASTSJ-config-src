@@ -113,7 +113,6 @@ public class LlenarMenu {
                 Item vida = new Item("Vida", null, a);
                 Item searchVida = new Item("Lista de Imdemnizaccion por Vida", "SIN", "poliza.png", "getVidaGrid", a);
 
-                Item convenio = new Item("Convenios", null, a);
 
 
 
@@ -140,8 +139,6 @@ public class LlenarMenu {
 
                 siniestro.getItems().add(vida);
                 vida.getItems().add(searchVida);
-
-                siniestro.getItems().add(convenio);
 
             }
             root.getItems().add(siniestro);
@@ -199,6 +196,16 @@ public class LlenarMenu {
 
                 }
                 mantenimiento.getItems().add(pagos);
+                Item convenio = new Item("Convenios", null, a);
+                {
+                    Item pp = new Item("Descuento Pronto Pago",
+                            "CON", "poliza.png", "getProntoPago", a);
+                    Item tm = new Item("Timbre Municipal",
+                            "CON", "poliza.png", "getTimbreMunicipal", a);
+                    convenio.getItems().add(pp);
+                    convenio.getItems().add(tm);
+                }
+                mantenimiento.getItems().add(convenio);
 
 
 
@@ -296,9 +303,12 @@ public class LlenarMenu {
                         mantSistema.getItems().add(licencias);
                     }
 
-                    Item configLnF = new Item("Config Tiny LnF",
+                    Item configLnF = new Item("Configuracion Look and Feel",
                             "MAN", "settings.png", "getConfigLnF", a);
                     mantSistema.getItems().add(configLnF);
+                    Item configGen = new Item("Configuraciones Generales",
+                            "MAN", "sharemanager.png", "getConfigGen", a);
+                    mantSistema.getItems().add(configGen);
                 }
 
 
