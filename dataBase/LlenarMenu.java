@@ -16,17 +16,15 @@ import org.hibernate.Transaction;
  * @author adrian
  */
 public class LlenarMenu {
-
+    
     public static void llenarItems() {
         Session s = null;
-
+        
         try {
             s = HibernateUtil.getSessionFactory().openSession();
             Transaction tx = s.beginTransaction();
             AuditoriaBasica a = new AuditoriaBasica(new Date(), "defaultdata", Boolean.TRUE);
             Item root = new Item("root", null, a);
-
-
 
             // <editor-fold defaultstate="collapsed" desc="Personas">
             Item personas = new Item("Personas", null, a);
@@ -37,7 +35,7 @@ public class LlenarMenu {
                 personas.getItems().add(presonaNueva);
                 personas.getItems().add(presonasGrid);
                 personas.getItems().add(buscar);
-
+                
             }
             root.getItems().add(personas);
             // </editor-fold>
@@ -59,9 +57,9 @@ public class LlenarMenu {
 
             // <editor-fold defaultstate="collapsed" desc="Polizas">
             Item poliza = new Item("Polizas", null, a);
-
+            
             {
-
+                
                 Item polizaNueva = new Item("Nueva", "POL", "insert2.png", "getPolizaNueva", a);
                 Item polizas = new Item("Todas", "POL", "poliza.png", "getPolizas", a);
 //                Item buscar = new Item("Buscar", "POL", "find.png", "AUN_NO_FUN", a);
@@ -87,59 +85,58 @@ public class LlenarMenu {
 
             // <editor-fold defaultstate="collapsed" desc="Siniestros">
             Item siniestro = new Item("Siniestros", null, a);
-            {
-
+            {                
                 Item siniestroNuevo = new Item("Nuevo", "SIN", "insert2.png", "getSiniestroNuevo", a);
                 Item siniestros = new Item("Todos", "SIN", "poliza.png", "getSiniestros", a);
-
+                
                 Item aps = new Item("Atencion Primaria de Servicio (APS)", null, a);
                 Item searchAps = new Item("Todos APS", "SIN", "poliza.png", "getApsGrid", a);
-
+                
                 Item ayudaSocial = new Item("Ayudas Sociales", null, a);
                 Item searchAS = new Item("Lista de  Ayudas Sociales", "SIN", "poliza.png", "getAyudaSocialGrid", a);
-
+                
                 Item cartaAval = new Item("Carta Aval", null, a);
                 Item searchAval = new Item("Lista de  Cartas Aval", "SIN", "poliza.png", "getCartaAvalGrid", a);
-
+                
                 Item emergencia = new Item("Emergencias", null, a);
                 Item emergenciaBuscar = new Item("Lista de Emergencias", "SIN", "poliza.png", "getEmergenciaGrid", a);
-
+                
                 Item funerario = new Item("Funerarios", null, a);
                 Item searchFune = new Item("Lista de Gastos Funerarios", "SIN", "poliza.png", "getFunerarioGrid", a);
-
+                
                 Item reembolsos = new Item("Reembolsos", null, a);
                 Item searchReem = new Item("Lista de Reembolsos", "SIN", "poliza.png", "getReembolsoGrid", a);
-
+                
                 Item vida = new Item("Vida", null, a);
                 Item searchVida = new Item("Lista de Imdemnizaccion por Vida", "SIN", "poliza.png", "getVidaGrid", a);
-
-
-
-
+                
+                Item buscarSin = new Item("Buscar", "SIN", "find.png", "getBuscarSin", a);
+                                               
                 siniestro.getItems().add(siniestroNuevo);
                 siniestro.getItems().add(siniestros);
-
+                
                 siniestro.getItems().add(aps);
                 aps.getItems().add(searchAps);
-
+                
                 siniestro.getItems().add(ayudaSocial);
                 ayudaSocial.getItems().add(searchAS);
-
+                
                 siniestro.getItems().add(cartaAval);
                 cartaAval.getItems().add(searchAval);
-
+                
                 siniestro.getItems().add(emergencia);
                 emergencia.getItems().add(emergenciaBuscar);
-
+                
                 siniestro.getItems().add(funerario);
                 funerario.getItems().add(searchFune);
-
+                
                 siniestro.getItems().add(reembolsos);
                 reembolsos.getItems().add(searchReem);
-
+                
                 siniestro.getItems().add(vida);
                 vida.getItems().add(searchVida);
-
+                
+                siniestro.getItems().add(buscarSin);
             }
             root.getItems().add(siniestro);
             // </editor-fold>
@@ -154,13 +151,13 @@ public class LlenarMenu {
                         "PAG", "money.png", "getNewRemesa", a);
                 Item remList = new Item("Lista de Remesas",
                         "PAG", "85.png", "getGridRemesa", a);
-
+                
                 pays.getItems().add(pago);
                 pays.getItems().add(persPag);
                 pays.getItems().add(todos);
                 pays.getItems().add(rem);
                 pays.getItems().add(remList);
-
+                
             }
             root.getItems().add(pays);
             // </editor-fold>
@@ -176,7 +173,7 @@ public class LlenarMenu {
                     Item parentescos = new Item("Parentescos", "ASE", null, "getParentesco", a);
                     Item plazosEspera = new Item("Plazos de Escpera", "ASE", null, "getPlazoEspera", a);
                     Item recalculo = new Item("Recalcular Prima y Edad", "ASE", null, null, a);
-
+                    
                     asegurados.getItems().add(departamento);
                     asegurados.getItems().add(contrato);
                     asegurados.getItems().add(parentescos);
@@ -184,7 +181,7 @@ public class LlenarMenu {
                     asegurados.getItems().add(recalculo);
                 }
                 mantenimiento.getItems().add(asegurados);
-
+                
                 Item pagos = new Item("Pagos", null, a);
                 {
                     Item cob = new Item("Coberturas",
@@ -193,7 +190,7 @@ public class LlenarMenu {
                             "PAG", "ramos_manager.png", "getConfiguracionCoberturas", a);
                     pagos.getItems().add(cob);
                     pagos.getItems().add(confCob);
-
+                    
                 }
                 mantenimiento.getItems().add(pagos);
                 Item convenio = new Item("Convenios", null, a);
@@ -211,7 +208,7 @@ public class LlenarMenu {
 
                 //Mantenimiento Personas
                 Item manPer = new Item("Personas", null, a);
-
+                
                 {
                     mantenimiento.getItems().add(manPer);
                     Item actEco = new Item("Tipo Actividad Economica",
@@ -235,15 +232,15 @@ public class LlenarMenu {
                     manPer.getItems().add(tipCtB);
                     manPer.getItems().add(codigoArea);
                 }
-
+                
                 Item polizas = new Item("Polizas", null, a);
-
+                
                 {
                     Item planes = new Item("Planes", "MAN", "planes.png", "getPlan", a);
-
+                    
                     Item RamoCobertura = new Item("Ramo-Cobertura",
                             "MAN", "ramo-cobertura.png", "getRamoCobertura", a);
-
+                    
                     Item configPrima = new Item("Configuracion Prima",
                             "MAN", "settings.png", "getConfiguracionPrima", a);
                     polizas.getItems().add(planes);
@@ -251,7 +248,7 @@ public class LlenarMenu {
                     polizas.getItems().add(configPrima);
                 }
                 mantenimiento.getItems().add(polizas);
-
+                
                 Item roles = new Item("Roles", "seguridad.png", a);
                 {
                     Item rol = new Item("Lista Roles",
@@ -260,12 +257,12 @@ public class LlenarMenu {
                             "ROL", "ramos_manager.png", "getRoles", a);
                     roles.getItems().add(rol);
                     roles.getItems().add(rolOp);
-
+                    
                 }
                 mantenimiento.getItems().add(roles);
-
+                
                 Item siniestros = new Item("Siniestros", null, a);
-
+                
                 {
                     Item tipoSiniestro = new Item("Tipo Siniestro", "SIN", "asegurado.png", "getTipoSiniestro", a);
                     Item conceptoSeniat = new Item("Conceto SENIAT", "SIN", "asegurado.png", "getConceptoSENIAT", a);
@@ -281,7 +278,7 @@ public class LlenarMenu {
 
                 // mantenimiento Sistema
                 Item mantSistema = new Item("Sistema", null, a);
-
+                
                 {
                     mantenimiento.getItems().add(mantSistema);
                     Item usuario = new Item("Usuarios",
@@ -290,7 +287,7 @@ public class LlenarMenu {
                     Item passw = new Item("Cambiar Contraseña",
                             "MAN", "password.png", "getCambiarPass", a);
                     mantSistema.getItems().add(passw);
-
+                    
                     Item empresa = new Item("Empresa",
                             "MAN", "home.png", "getEmpresa", a);
                     mantSistema.getItems().add(empresa);
@@ -302,7 +299,7 @@ public class LlenarMenu {
                                 "MAN", "miscellaneous2.png", "getLicencias", a);
                         mantSistema.getItems().add(licencias);
                     }
-
+                    
                     Item configLnF = new Item("Configuracion Look and Feel",
                             "MAN", "settings.png", "getConfigLnF", a);
                     mantSistema.getItems().add(configLnF);
@@ -310,21 +307,21 @@ public class LlenarMenu {
                             "MAN", "sharemanager.png", "getConfigGen", a);
                     mantSistema.getItems().add(configGen);
                 }
-
-
-
-
+                
+                
+                
+                
                 Item tipDocAnex = new Item("Tipo Documentos Anexos",
                         "MAN", "85.png", "getTipoDocAnex", a);
                 mantenimiento.getItems().add(tipDocAnex);
-
+                
                 Item encabezado = new Item("Encabezados de Reporte",
                         "MAN", null, "getEncabezado", a);
                 if (General.usuario.getAdministrador()) {
                     mantenimiento.getItems().add(encabezado);
                 }
             }
-
+            
             root.getItems().add(mantenimiento);
             // </editor-fold>                                     
 
@@ -333,7 +330,7 @@ public class LlenarMenu {
 
             Item log = new Item("Auditoria",
                     "MAN", "audit.png", "getLog", a);
-
+            
             root.getItems().add(log);
             // </editor-fold>
 
@@ -342,21 +339,21 @@ public class LlenarMenu {
 
             Item reportes = new Item("Reportes",
                     "REPORT", "printer2.png", "getReporteH", a);
-
+            
             root.getItems().add(reportes);
             // </editor-fold>
 
             // <editor-fold defaultstate="collapsed" desc="Soporte Tecnico">
             Item helpCenter = new Item("Soporte Técnico",
                     "HelpCenter", "helpcenter.png", "getHelpCenter", a);
-
+            
             root.getItems().add(helpCenter);
             // </editor-fold>
 
             // <editor-fold defaultstate="collapsed" desc="Salir">
             Item exit = new Item("Salir",
                     "HELP", "exit.png", "getExit", a);
-
+            
             root.getItems().add(exit);
             // </editor-fold>
 
@@ -367,9 +364,9 @@ public class LlenarMenu {
         } finally {
             s.close();
         }
-
+        
     }
-
+    
     public static void printMenuIds(Item i, int level) {
         System.out.print(i.getId());
         for (int k = 0; k < level; k++) {
@@ -380,7 +377,7 @@ public class LlenarMenu {
             printMenuIds(item, level + 1);
         }
     }
-
+    
     public static void llenarRoles() {
         Session s = null;
         Date d = new Date();
@@ -414,9 +411,9 @@ public class LlenarMenu {
         } finally {
             s.close();
         }
-
+        
     }
-
+    
     public static void llenarMenuByRoles() {
         Session s = null;
         try {
@@ -434,7 +431,7 @@ public class LlenarMenu {
                     fillMenu(rol, item, s);
                 }
             }
-
+            
             tx.commit();
             // </editor-fold>
 
@@ -443,9 +440,9 @@ public class LlenarMenu {
         } finally {
             s.close();
         }
-
+        
     }
-
+    
     static void fillMenu(Rol rol, Item items, Session s) {
         MenuByRol nuevo = new MenuByRol(items.getId(), rol.getId(), Boolean.TRUE);
         s.save(nuevo);
@@ -453,9 +450,9 @@ public class LlenarMenu {
             fillMenu(rol, item, s);
         }
     }
-
+    
     static java.util.List optenerData(String valueObjectClassName) {
-
+        
         Session s = null;
         java.util.List mensajes = null;
         try {
@@ -474,24 +471,24 @@ public class LlenarMenu {
         }
         return mensajes;
     }
-
+    
     public static void saveData(Object o) {
         Session s = null;
         try {
             s = HibernateUtil.getSessionFactory().openSession();
             Transaction tx = null;
-
+            
             tx = s.beginTransaction();
             s.save(o);
             tx.commit();
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             s.close();
         }
     }
-
+    
     public static void updateData(Object o) {
         Session s = null;
         try {
@@ -500,14 +497,14 @@ public class LlenarMenu {
             tx = s.beginTransaction();
             s.update(o);
             tx.commit();
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             s.close();
         }
     }
-
+    
     public static void addMenu(Item menu) {
         Item root = new LlenarMenu().getRootItem();
         root.getItems().add(menu);
@@ -516,7 +513,7 @@ public class LlenarMenu {
         try {
             s = HibernateUtil.getSessionFactory().openSession();
             Transaction tx = null;
-
+            
             tx = s.beginTransaction();
             java.util.List roles = optenerData(Rol.class.getName());
             for (Object object : roles) {
@@ -533,7 +530,7 @@ public class LlenarMenu {
             s.close();
         }
     }
-
+    
     private static Item getRootItem() {
         Session s = null;
         try {
@@ -548,10 +545,10 @@ public class LlenarMenu {
         }
         return null;
     }
-
+    
     public static void updateMenu() {
         printMenuIds(getRootItem(), 0);
-
+        
         Session s = null;
         try {
             s = HibernateUtil.getSessionFactory().openSession();
@@ -562,12 +559,12 @@ public class LlenarMenu {
             int pos = 1;
             i.getItems().add(pos, nuevoItem);
             s.saveOrUpdate(i);
-
+            
             java.util.List roles = optenerData(Rol.class.getName());
             for (Object object : roles) {
                 Rol rol = (Rol) object;
                 fillMenu(rol, nuevoItem, s);
-
+                
             }
             tx.commit();
         } catch (Exception ex) {

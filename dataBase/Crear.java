@@ -68,9 +68,8 @@ public class Crear {
                 //setProperty("hibernate.format_sql", "true").
                 setProperty("hibernate.hbm2ddl.auto", "create-drop").
                 buildSessionFactory().openSession();
-
         tx = s.beginTransaction();
-        String dropSeq = "DROP SEQUENCE IF EXISTS seq_siniestro, seq_ordenpago, seq_remesa;";
+        String dropSeq = "DROP SEQUENCE IF EXISTS seq_siniestro, seq_ordenpago, seq_remesa, seq_poliza;";
         s.createSQLQuery(dropSeq).executeUpdate();
         String seqSin = "CREATE SEQUENCE seq_siniestro INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_siniestro OWNER TO postgres;";
         s.createSQLQuery(seqSin).executeUpdate();
@@ -78,6 +77,8 @@ public class Crear {
         s.createSQLQuery(seqOrd).executeUpdate();
         String seqRem = "CREATE SEQUENCE seq_remesa  INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_remesa OWNER TO postgres;";
         s.createSQLQuery(seqRem).executeUpdate();
+        String seqPol = "CREATE SEQUENCE seq_poliza  INCREMENT 1 MINVALUE 1 MAXVALUE 999999 START 1 CACHE 1; ALTER TABLE seq_poliza OWNER TO postgres;";
+        s.createSQLQuery(seqPol).executeUpdate();
 
     }
 
@@ -763,7 +764,7 @@ public class Crear {
 
     private void parentescos(AuditoriaBasica a) {
         ArrayList<Parentesco> list = new ArrayList<Parentesco>(0);
-        list.add(new Parentesco("TITULAR", a));
+        list.add(new Parentesco("TRABAJADOR", a));
         list.add(new Parentesco("PADRE/MADRE", a));
         list.add(new Parentesco("HIJO/HIJA", a));
         list.add(new Parentesco("HERMANO/HERMANA", a));
