@@ -21,12 +21,12 @@ import com.jswitch.persona.modelo.maestra.PersonaJuridica;
 import com.jswitch.persona.modelo.maestra.PersonaNatural;
 import com.jswitch.persona.modelo.maestra.Rif;
 import com.jswitch.base.modelo.entidades.TipoDocumento;
-import com.jswitch.base.modelo.entidades.ValoresEstandares;
 import com.jswitch.asegurados.modelo.dominio.Departamento;
 import com.jswitch.asegurados.modelo.dominio.Parentesco;
 import com.jswitch.configuracion.modelo.maestra.Plan;
 import com.jswitch.configuracion.modelo.dominio.PlazoEspera;
 import com.jswitch.asegurados.modelo.dominio.TipoContrato;
+import com.jswitch.base.modelo.entidades.defaultData.ConfiguracionesGenerales;
 import com.jswitch.configuracion.modelo.dominio.Ramo;
 import com.jswitch.persona.modelo.maestra.LNPersonaNatural;
 import com.jswitch.pagos.modelo.dominio.ConceptoSENIAT;
@@ -111,7 +111,7 @@ public class Crear {
         Date d = new Date();
         auditoriaActivo = new AuditoriaBasica(d, userDD.getUserName(), true);
         auditoriaInactivo = new AuditoriaBasica(d, userDD.getUserName(), false);
-        //configuracionesGenerales(auditoriaActivo);
+        configuracionesGenerales(auditoriaActivo);
         tiposPersona(auditoriaActivo, auditoriaInactivo);
         tiposActividadEconomica(auditoriaActivo);
         tipoCuentaBancaria(auditoriaActivo);
@@ -122,7 +122,6 @@ public class Crear {
         tiposCapacidadEconomica(auditoriaActivo);
         estados(auditoriaActivo);
         personasDefault(auditoriaActivo);
-        valoresEstandares(auditoriaActivo);
         calendarioBancario(auditoriaActivo);
         parentescos(auditoriaActivo);
         planes(auditoriaActivo);
@@ -136,9 +135,9 @@ public class Crear {
     }
 
     private void ramos(AuditoriaBasica a) {
-        s.save(new Ramo("HCM", "HCM",a));
-        s.save(new Ramo("FUNERARIO", "FUNE",a));
-        s.save(new Ramo("VIDA", "VIDA",a));
+        s.save(new Ramo("HCM", "HCM", a));
+        s.save(new Ramo("FUNERARIO", "FUNE", a));
+        s.save(new Ramo("VIDA", "VIDA", a));
     }
 
     private void conceptoSENIAT(AuditoriaBasica a) {
@@ -208,8 +207,8 @@ public class Crear {
 
     private void tipoCuentaBancaria(AuditoriaBasica a) {
         ArrayList<TipoCuentaBancaria> list = new ArrayList<TipoCuentaBancaria>(0);
-        list.add(new TipoCuentaBancaria("AHORRO", a));
-        list.add(new TipoCuentaBancaria("CORRIENTE", a));
+        list.add(new TipoCuentaBancaria("AHORRO","00", a));
+        list.add(new TipoCuentaBancaria("CORRIENTE","11", a));
         list.add(new TipoCuentaBancaria("TARJETA DE CREDITO", a));
         list.add(new TipoCuentaBancaria("TARJETA DE DEBITO", a));
         for (TipoCuentaBancaria o : list) {
@@ -755,13 +754,6 @@ public class Crear {
         }
     }
 
-    private void valoresEstandares(AuditoriaBasica auditoriaActivo) {
-        ValoresEstandares ve = new ValoresEstandares();
-        ve.setIva(12.0);
-        ve.setUt(65.0);
-    }
-//TODO ADRIAN
-
     private void parentescos(AuditoriaBasica a) {
         ArrayList<Parentesco> list = new ArrayList<Parentesco>(0);
         list.add(new Parentesco("TRABAJADOR", a));
@@ -826,6 +818,23 @@ public class Crear {
             bd.data();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void configuracionesGenerales(AuditoriaBasica auditoriaActivo) {
+        ArrayList<ConfiguracionesGenerales> list = new ArrayList<ConfiguracionesGenerales>(0);
+        list.add(new ConfiguracionesGenerales("ut", 75d));
+        list.add(new ConfiguracionesGenerales("iva", 0.12d));
+        list.add(new ConfiguracionesGenerales("reembolso.diasVencimiento", 180));
+        list.add(new ConfiguracionesGenerales("cartaAval.diasVencimiento", 30));
+        list.add(new ConfiguracionesGenerales("aps.diasVencimiento", 15));
+        list.add(new ConfiguracionesGenerales("remesa.maxUt.reembolso", 10000d));
+        ConfiguracionesGenerales a = new ConfiguracionesGenerales("remesa.numNeg", "00002100");
+        a.setValorInteger(2100);
+        list.add(a);
+        for (ConfiguracionesGenerales o : list) {
+            o.setAuditoria(auditoriaActivo);
+            s.save(o);
         }
     }
 }
