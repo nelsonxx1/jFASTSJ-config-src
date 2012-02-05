@@ -156,7 +156,7 @@ public class ActualizarVistas {
                 + " sum(view_sumaorden.totalretenido) AS totalretenido"
                 + " FROM view_sumaorden"
                 + " CROSS JOIN pago_ordendepago"
-                + " WHERE view_sumaorden.id = pago_ordendepago.id"
+                + " WHERE view_sumaorden.id = pago_ordendepago.id AND  pago_ordendepago.remesa_id IS NOT NULL"
                 + " GROUP BY pago_ordendepago.remesa_id;"
                 + " ALTER TABLE view_sumaremesa OWNER TO postgres;").executeUpdate();
 
