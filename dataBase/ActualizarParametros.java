@@ -38,6 +38,9 @@ public class ActualizarParametros {
         list.add(new ConfiguracionesGenerales("cartaAval.diasVencimiento", 30));
         list.add(new ConfiguracionesGenerales("aps.diasVencimiento", 15));
         list.add(new ConfiguracionesGenerales("remesa.maxUt.reembolso", 10000.0));
+        ConfiguracionesGenerales a = new ConfiguracionesGenerales("remesa.numNeg", "00002100");
+        a.setValorInteger(2100);
+        list.add(a);
 
         for (ConfiguracionesGenerales o : list) {
             o.setAuditoria(ab);
