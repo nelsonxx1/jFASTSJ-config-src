@@ -111,7 +111,7 @@ public class Crear {
         Date d = new Date();
         auditoriaActivo = new AuditoriaBasica(d, userDD.getUserName(), true);
         auditoriaInactivo = new AuditoriaBasica(d, userDD.getUserName(), false);
-        configuracionesGenerales(auditoriaActivo);
+//        configuracionesGenerales(auditoriaActivo);
         tiposPersona(auditoriaActivo, auditoriaInactivo);
         tiposActividadEconomica(auditoriaActivo);
         tipoCuentaBancaria(auditoriaActivo);
@@ -779,11 +779,11 @@ public class Crear {
     }
 
     private void planes(AuditoriaBasica a) {
-        ArrayList<Plan> list = new ArrayList<Plan>(0);
-        list.add(new Plan("ESPECIAL-A 3000", a));
-        for (Plan o : list) {
-            s.save(o);
-        }
+//        ArrayList<Plan> list = new ArrayList<Plan>(0);
+//        list.add(new Plan("ESPECIAL-A 3000", a));
+//        for (Plan o : list) {
+//            s.save(o);
+//        }
     }
 
     private void departamentos(AuditoriaBasica a) {

@@ -2,6 +2,8 @@ package dataBase;
 
 import com.jswitch.base.modelo.HibernateUtil;
 import com.jswitch.siniestros.modelo.maestra.DiagnosticoSiniestro;
+import com.jswitch.vistasbd.ListaDiagnostico;
+import com.jswitch.vistasbd.SumaPartida;
 import org.hibernate.classic.Session;
 
 /**
@@ -19,6 +21,27 @@ public class ActualizarParametros_1 {
         System.out.println("transaccion begin");
 
         System.out.println("---------*----------------");
+
+//4716
+
+//1673
+        String sql = "FROM " + ListaDiagnostico.class.getName() + " C ";
+        
+        System.out.println(s.createQuery(sql).list());
+
+//           Response res = HibernateUtils.getAllFromQuery(
+//                    filteredColumns,
+//                    currentSortedColumns,
+//                    currentSortedVersusColumns,
+//                    valueObjectType,
+//                    sql,
+//                    new Object[0],
+//                    new Type[0],
+//                    "C",
+//                    sf,
+//                    s);
+
+
 //        Diagnostico d = (Diagnostico) s.createQuery("FROM " + Diagnostico.class.getName()).setMaxResults(1).uniqueResult();
 //        Asegurado a = (Asegurado) s.createQuery("FROM " + Asegurado.class.getName()).setMaxResults(1).uniqueResult();
 //
@@ -31,6 +54,9 @@ public class ActualizarParametros_1 {
 //                + "plan.id=:plan").setLong("diag", d.getId()).setLong("plan", a.getPlan().getId()).uniqueResult();
 //
 //        System.out.println(totalCoberturaDiagnosticoPlan);
+
+
+
 
         s.createQuery("SELECT D.detalleSiniestro.siniestro.ayo, D.detalleSiniestro.siniestro.asegurado.id, "
                 + "D.diagnostico.id, SUM(D.montoPagado) "
