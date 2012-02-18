@@ -2,6 +2,7 @@ package dataBase;
 
 import com.jswitch.base.modelo.HibernateUtil;
 import com.jswitch.pagos.modelo.maestra.OrdenDePago;
+import com.jswitch.vistasbd.vista1;
 import java.util.List;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
@@ -22,11 +23,15 @@ public class ConsultaPruebaOrlando {
 
         //s.createQuery("SELECT tipoPersona.nombre as numeroSiniestros FROM "+DetalleSiniestro.class.getName()).list();
 
-        List l = s.createQuery(" SELECT DIAG.id "
-                + " FROM " + OrdenDePago.class.getName() + " O "
-                + " JOIN O.detalleSiniestros DES "
-                + " JOIN DES.diagnosticoSiniestros DIAG").list();
+//        List l = s.createQuery(" SELECT DIAG.id "
+//                + " FROM " + OrdenDePago.class.getName() + " O "
+//                + " JOIN O.detalleSiniestros DES "
+//                + " JOIN DES.diagnosticoSiniestros DIAG").list();
 
+        
+        List l = s.createQuery(" "
+                + " FROM " + vista1.class.getName() + " O ").list();
+                
         System.out.println(l);
 
         tx.commit();
