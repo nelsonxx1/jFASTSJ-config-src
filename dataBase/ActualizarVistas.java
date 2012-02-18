@@ -94,6 +94,7 @@ public class ActualizarVistas {
                 + " CREATE OR REPLACE VIEW view_sumafactura AS "
                 + " SELECT sini_factura.id, sum(sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS montoretencionprontopago, sum(sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretencionislr + sini_factura.montoretenciontm + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS totalretenido, sum(sini_factura.totalliquidado - (sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretenciontm + sini_factura.montoretencionislr + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago)) AS totalacancelar"
                 + " FROM sini_factura"
+                + " where sini_factura.activo=true"
                 + " GROUP BY sini_factura.id;"
                 + " ALTER TABLE view_sumafactura OWNER TO postgres;"
                 + " CREATE OR REPLACE VIEW view_sumadetalle AS "
