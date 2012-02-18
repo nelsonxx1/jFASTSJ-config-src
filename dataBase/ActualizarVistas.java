@@ -51,6 +51,22 @@ public class ActualizarVistas {
         }
         tx = s.beginTransaction();
         try {
+            System.out.println("view_sumapartida:");
+            s.createSQLQuery("DROP TABLE IF EXISTS view_sumapartida").executeUpdate();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+        }
+        tx = s.beginTransaction();
+        try {
+            System.out.println("view_listadiagnostico:");
+            s.createSQLQuery("DROP TABLE IF EXISTS view_listadiagnostico").executeUpdate();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+        }
+        tx = s.beginTransaction();
+        try {
             System.out.println("view_agotamiento:");
             s.createSQLQuery("DROP TABLE IF EXISTS view_agotamiento").executeUpdate();
             tx.commit();
@@ -59,8 +75,10 @@ public class ActualizarVistas {
         }
         tx = s.beginTransaction();
 
-        s.createSQLQuery(" CREATE OR REPLACE VIEW view_agotamiento AS "
-                + " SELECT siniestro2_.asegurado_id, diagnostic0_.diagnostico_id, sum("
+        s.createSQLQuery(" DROP VIEW IF EXISTS view_agotamiento CASCADE;"
+                + " CREATE OR REPLACE VIEW view_agotamiento AS "
+                + " SELECT (siniestro2_.asegurado_id||'-'||diagnostic0_.diagnostico_id||'-'|| siniestro2_.ayo) AS id,"
+                + "siniestro2_.asegurado_id, diagnostic0_.diagnostico_id, sum("
                 + " CASE"
                 + " WHEN upper(estatussin7_.nombre) = 'PAGADO' THEN diagnostic0_.montopagado"
                 + " ELSE 0"
@@ -74,8 +92,9 @@ public class ActualizarVistas {
                 + " ALTER TABLE view_agotamiento OWNER TO postgres;"
                 + " DROP VIEW IF EXISTS view_sumafactura CASCADE;"
                 + " CREATE OR REPLACE VIEW view_sumafactura AS "
-                + " SELECT sini_factura.id, sum(sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS montoretencionprontopago, sum(sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretencionisrl + sini_factura.montotm + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS totalretenido, sum(sini_factura.totalliquidado - (sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretenciontm + sini_factura.montoretencionisrl + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago)) AS totalacancelar"
+                + " SELECT sini_factura.id, sum(sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS montoretencionprontopago, sum(sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretencionislr + sini_factura.montoretenciontm + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago) AS totalretenido, sum(sini_factura.totalliquidado - (sini_factura.montoretenciondeducible + sini_factura.montoretencioniva + sini_factura.montoretenciontm + sini_factura.montoretencionislr + sini_factura.totalliquidado * sini_factura.porcentajeretencionprontopago)) AS totalacancelar"
                 + " FROM sini_factura"
+                + " where sini_factura.activo=true"
                 + " GROUP BY sini_factura.id;"
                 + " ALTER TABLE view_sumafactura OWNER TO postgres;"
                 + " CREATE OR REPLACE VIEW view_sumadetalle AS "
@@ -90,7 +109,7 @@ public class ActualizarVistas {
                 + " sum(view_sumafactura.montoretencionprontopago) AS montoretencionprontopago,"
                 + " sum(sini_factura.montoiva) AS montoiva,"
                 + " sum(sini_factura.montonoamparado) AS montonoamparado,"
-                + " sum(sini_factura.montoretencionisrl) AS montoretencionisrl,"
+                + " sum(sini_factura.montoretencionislr) AS montoretencionislr,"
                 + " sum(sini_factura.montoretencioniva) AS montoretencioniva,"
                 + " sum(sini_factura.montoretenciontm) AS montoretenciontm,"
                 + " sum(view_sumafactura.totalacancelar) AS totalacancelar,"
@@ -119,7 +138,7 @@ public class ActualizarVistas {
                 + " CASE"
                 + " WHEN titular5_.persona_id <> asegurado8_.persona_id THEN sumadetall0_.totalliquidado"
                 + " ELSE 0"
-                + " END) AS montofamiliares, sum(sumadetall0_.baseislr) AS baseislr, sum(sumadetall0_.baseiva) AS baseiva, sum(sumadetall0_.cantidadfacturas) AS cantidadfacturas, sum(sumadetall0_.gastosclinicos) AS gastosclinicos, sum(sumadetall0_.honorariosmedicos) AS honorariosmedicos, sum(sumadetall0_.montoamparado) AS montoamparado, sum(sumadetall0_.montoretenciondeducible) AS montoretenciondeducible, sum(sumadetall0_.montoretencionprontopago) AS montoretencionprontopago, sum(sumadetall0_.montoiva) AS montoiva, sum(sumadetall0_.montonoamparado) AS montonoamparado, sum(sumadetall0_.montoretencionisrl) AS montoretencionisrl, sum(sumadetall0_.montoretencioniva) AS montoretencioniva, sum(sumadetall0_.montoretenciontm) AS montoretenciontm, sum(sumadetall0_.totalacancelar) AS totalacancelar, sum(sumadetall0_.totalfacturado) AS totalfacturado, sum(sumadetall0_.totalliquidado) AS totalliquidado, sum(sumadetall0_.totalretenido) AS totalretenido"
+                + " END) AS montofamiliares, sum(sumadetall0_.baseislr) AS baseislr, sum(sumadetall0_.baseiva) AS baseiva, sum(sumadetall0_.cantidadfacturas) AS cantidadfacturas, sum(sumadetall0_.gastosclinicos) AS gastosclinicos, sum(sumadetall0_.honorariosmedicos) AS honorariosmedicos, sum(sumadetall0_.montoamparado) AS montoamparado, sum(sumadetall0_.montoretenciondeducible) AS montoretenciondeducible, sum(sumadetall0_.montoretencionprontopago) AS montoretencionprontopago, sum(sumadetall0_.montoiva) AS montoiva, sum(sumadetall0_.montonoamparado) AS montonoamparado, sum(sumadetall0_.montoretencionislr) AS montoretencionislr, sum(sumadetall0_.montoretencioniva) AS montoretencioniva, sum(sumadetall0_.montoretenciontm) AS montoretenciontm, sum(sumadetall0_.totalacancelar) AS totalacancelar, sum(sumadetall0_.totalfacturado) AS totalfacturado, sum(sumadetall0_.totalliquidado) AS totalliquidado, sum(sumadetall0_.totalretenido) AS totalretenido"
                 + " FROM view_sumadetalle sumadetall0_"
                 + " CROSS JOIN sini_detallesiniestro detallesin1_"
                 + " CROSS JOIN sini_siniestro siniestro3_"
@@ -147,7 +166,7 @@ public class ActualizarVistas {
                 + " sum(view_sumaorden.montoretencionprontopago) AS montoretencionprontopago,"
                 + " sum(view_sumaorden.montoiva) AS montoiva,"
                 + " sum(view_sumaorden.montonoamparado) AS montonoamparado,"
-                + " sum(view_sumaorden.montoretencionisrl) AS montoretencionisrl,"
+                + " sum(view_sumaorden.montoretencionislr) AS montoretencionislr,"
                 + " sum(view_sumaorden.montoretencioniva) AS montoretencioniva,"
                 + " sum(view_sumaorden.montoretenciontm) AS montoretenciontm,"
                 + " sum(view_sumaorden.totalacancelar) AS totalacancelar,"
@@ -158,7 +177,34 @@ public class ActualizarVistas {
                 + " CROSS JOIN pago_ordendepago"
                 + " WHERE view_sumaorden.id = pago_ordendepago.id AND  pago_ordendepago.remesa_id IS NOT NULL"
                 + " GROUP BY pago_ordendepago.remesa_id;"
-                + " ALTER TABLE view_sumaremesa OWNER TO postgres;").executeUpdate();
+                + " ALTER TABLE view_sumaremesa OWNER TO postgres;"
+                + "CREATE OR REPLACE VIEW view_sumapartida AS "
+                + " SELECT (detallesin0_.ordendepago_id||'-'||tipocontra4_.partidapresupuestaria_id) AS id,"
+                + " tipocontra4_.partidapresupuestaria_id partidapresupuestaria_id,"
+                + " detallesin0_.ordendepago_id ordendepago_id,"
+                + " count(suma.id) AS cantidaddetalles, sum(suma.cantidadfacturas) AS cantidadfacturas, sum(suma.baseislr) AS baseislr, sum(suma.baseiva) AS baseiva, sum(suma.gastosclinicos) AS gastosclinicos, sum(suma.honorariosmedicos) AS honorariosmedicos, sum(suma.montoamparado) AS montoamparado, sum(suma.montoretenciondeducible) AS montoretenciondeducible, sum(suma.montoretencionprontopago) AS montoretencionprontopago, sum(suma.montoiva) AS montoiva, sum(suma.montonoamparado) AS montonoamparado, sum(suma.montoretencionislr) AS montoretencionislr, sum(suma.montoretencioniva) AS montoretencioniva, sum(suma.montoretenciontm) AS montoretenciontm, sum(suma.totalacancelar) AS totalacancelar, sum(suma.totalfacturado) AS totalfacturado, sum(suma.totalliquidado) AS totalliquidado, sum(suma.totalretenido) AS totalretenido"
+                + " FROM sini_detallesiniestro detallesin0_"
+                + " CROSS JOIN view_sumadetalle suma"
+                + " CROSS JOIN sini_siniestro siniestro1_"
+                + " CROSS JOIN aseg_certificado certificad2_"
+                + " CROSS JOIN aseg_titular titular3_"
+                + " CROSS JOIN aseg_tipocontrato tipocontra4_"
+                + " WHERE detallesin0_.siniestro_id = siniestro1_.id AND suma.id = detallesin0_.id AND siniestro1_.certificado_id = certificad2_.id AND certificad2_.titular_id = titular3_.id AND titular3_.tipocontrato_id = tipocontra4_.id"
+                + " GROUP BY tipocontra4_.partidapresupuestaria_id, detallesin0_.ordendepago_id;"
+                + " ALTER TABLE view_sumapartida OWNER TO postgres;"
+                + " DROP VIEW IF EXISTS view_listadiagnostico CASCADE;"
+                + " CREATE OR REPLACE VIEW view_listadiagnostico AS "
+                + " SELECT (siniestro.id||'-'||detalleSiniestro.id||'-'||diagnosticoSiniestro.id) id,"
+                + " siniestro.id siniestro_id,"
+                + " detalleSiniestro.id detalleSiniestro_id,"
+                + " diagnosticoSiniestro.id diagnosticoSiniestro_id"
+                + " FROM "
+                + " sini_siniestro siniestro,"
+                + " sini_detalleSiniestro detalleSiniestro,"
+                + " sini_diagnosticoSiniestro diagnosticoSiniestro"
+                + " WHERE siniestro.id=detalleSiniestro.siniestro_id"
+                + " AND diagnosticoSiniestro.detalleSiniestro_id=detalleSiniestro.id;"
+                + " ALTER TABLE view_listadiagnostico OWNER TO postgres;").executeUpdate();
 
         tx.commit();
         System.out.println("Vistas Creadas");

@@ -783,6 +783,7 @@ public class ConfigFrame extends javax.swing.JFrame {
         encabezado.setNombre(e.getNombre());
         encabezado.setRif2(e.getRif2());
         encabezado.setObservacion("");
+        encabezado.setAuditoria(new AuditoriaBasica(new Date(), "defauldData", Boolean.TRUE));
         return encabezado;
     }
 
