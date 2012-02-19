@@ -39,24 +39,7 @@ public class LlenarMenu {
             }
             root.getItems().add(personas);
             // </editor-fold>
-
-            // <editor-fold defaultstate="collapsed" desc="Asegurado">
-            Item aseguradosFolder = new Item("Asegurados", null, a);
-            {
-                Item asegurados = new Item("Lista Asegurados", "ASE", "asegurado.png", "getAsegurados", a);
-                Item agotamiento = new Item("Agotamiento por Asegurado", "ASE", "certificados.png", "getAgotamiento", a);
-                Item beneficiarios = new Item("Lista Beneficiarios", "ASE", "asegurado.png", "getBeneficiarios", a);
-                Item titulares = new Item("Lista Titulares", "ASE", "titulares.png", "getTitulares", a);
-                Item buscar = new Item("Buscar Asegurados", "ASE", "find.png", "getBuscarAsegurado", a);
-                aseguradosFolder.getItems().add(asegurados);
-                aseguradosFolder.getItems().add(agotamiento);
-                aseguradosFolder.getItems().add(beneficiarios);
-                aseguradosFolder.getItems().add(titulares);
-                aseguradosFolder.getItems().add(buscar);
-            }
-            root.getItems().add(aseguradosFolder);
-            // </editor-fold>
-
+            
             // <editor-fold defaultstate="collapsed" desc="Polizas">
             Item poliza = new Item("Polizas", null, a);
 
@@ -88,18 +71,20 @@ public class LlenarMenu {
             // <editor-fold defaultstate="collapsed" desc="Asegurado">
             Item aseguradosFolder = new Item("Asegurados", null, a);
             {
-                Item buscar = new Item("Buscar Asegurados", "ASE", "find.png", "getBuscarAsegurado", a);
                 Item asegurados = new Item("Lista Asegurados", "ASE", "asegurado.png", "getAsegurados", a);
+                Item agotamiento = new Item("Agotamiento por Asegurado", "ASE", "certificados.png", "getAgotamiento", a);
                 Item beneficiarios = new Item("Lista Beneficiarios", "ASE", "asegurado.png", "getBeneficiarios", a);
                 Item titulares = new Item("Lista Titulares", "ASE", "titulares.png", "getTitulares", a);
-                aseguradosFolder.getItems().add(buscar);
+                Item buscar = new Item("Buscar Asegurados", "ASE", "find.png", "getBuscarAsegurado", a);
                 aseguradosFolder.getItems().add(asegurados);
+                aseguradosFolder.getItems().add(agotamiento);
                 aseguradosFolder.getItems().add(beneficiarios);
-                aseguradosFolder.getItems().add(titulares);                
+                aseguradosFolder.getItems().add(titulares);
+                aseguradosFolder.getItems().add(buscar);
             }
             root.getItems().add(aseguradosFolder);
             // </editor-fold>
-
+           
             // <editor-fold defaultstate="collapsed" desc="Siniestros">
             Item siniestro = new Item("Siniestros", null, a);
             {
