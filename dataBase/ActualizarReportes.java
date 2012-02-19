@@ -6,6 +6,7 @@ import com.jswitch.base.modelo.Dominios;
 import com.jswitch.base.modelo.HibernateUtil;
 import com.jswitch.reporte.modelo.Reporte;
 import com.jswitch.base.modelo.entidades.auditoria.AuditoriaBasica;
+import com.jswitch.pagos.modelo.maestra.Factura;
 import com.jswitch.pagos.modelo.maestra.OrdenDePago;
 import com.jswitch.pagos.modelo.maestra.Remesa;
 import com.jswitch.persona.modelo.maestra.Persona;
@@ -42,6 +43,15 @@ public class ActualizarReportes {
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D001", "Personas x Nombre", "Todas las Personas", "FROM " + Persona.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,false));
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D002", "Personas, Telefono, Direccion", "Todas las Personas con sus Telefonos y Direcciones", "FROM " + Persona.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true, false));
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D003", "Personas Naturales, Fecha Nacimiento, Sexo, Telefono y Direccion.", "Personas segun su Tipo, con Telefonos y Direccions", "FROM " + PersonaNatural.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true, false));
+        
+        list.add(new Reporte(Dominios.CategoriaReporte.PAGOS, 0, "PAGO_D_FACTURAS_001", 
+                "PAGOS PENDIENTES", 
+                "DESCRIP", 
+                "FROM " + Factura.class.getName() + " as P "
+                + "WHERE P.detalleSiniestro.personaPago.id=18017 AND P.detalleSiniestro.etapaSiniestro.idPropio IN ('LIQ','ORD_PAG') "
+                + "ORDER BY P.detalleSiniestro.personaPago.id, P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.id ", "Carta 8½ x 11 Vertical", 
+                false, true, true, false));                
+        
         
         list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R001", "Listado de Ordenes de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "FROM " + OrdenDePago.class.getName() + " as P ORDER BY P.remesa.id, P.numeroOrden", "Carta 8½ x 11 Vertical", false, true, true, false));                
         list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R003", "Listado de Remesas", "Remesas cargadas", "FROM " + Remesa.class.getName() + " as P ORDER BY P.fechaPago", "Carta 8½ x 11 Horizontal", false, true, true, false));                
