@@ -53,8 +53,8 @@ public class ActualizarReportes {
                 false, true, true, false));                
         
         
-        list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R001", "Listado de Ordenes de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "FROM " + OrdenDePago.class.getName() + " as P ORDER BY P.remesa.id, P.numeroOrden", "Carta 8½ x 11 Vertical", false, true, true, false));                
-        list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R003", "Listado de Remesas", "Remesas cargadas", "FROM " + Remesa.class.getName() + " as P ORDER BY P.fechaPago", "Carta 8½ x 11 Horizontal", false, true, true, false));                
+        list.add(new Reporte(Dominios.CategoriaReporte.REMESAS, 0, "REM-R001", "Listado de Ordenes de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "FROM " + OrdenDePago.class.getName() + " as P ORDER BY P.remesa.id, P.numeroOrden", "Carta 8½ x 11 Vertical", false, true, true, false));                
+        list.add(new Reporte(Dominios.CategoriaReporte.REMESAS, 0, "REM-R003", "Listado de Remesas", "Remesas cargadas", "FROM " + Remesa.class.getName() + " as P ORDER BY P.fechaPago", "Carta 8½ x 11 Horizontal", false, true, true, false));                
         
         list.add(new Reporte(Dominios.CategoriaReporte.SINIESTROS, 0, "SIN-R001", "Listado de Diagnosticos Sinoiestros de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "SELECT P.diagnostico , P.montoPagado  FROM com.jswitch.siniestros.modelo.maestra.DiagnosticoSiniestro as P WHERE P.id=30921 ORDER BY P.diagnostico.nombre", "Carta 8½ x 11 Vertical", false, true, false, false));
 //        list.add(new Reporte(Dominios.CategoriaReporte.SINIESTROS, 0, "SIN-R001", "Listado de Diagnosticos Sinoiestros de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "FROM " + DiagnosticoSiniestro.class.getName() + " as P WHERE P.id=30921 ORDER BY P.diagnostico.nombre", "Carta 8½ x 11 Vertical", false, true, false));        
