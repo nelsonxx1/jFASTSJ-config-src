@@ -11,7 +11,9 @@ import com.jswitch.pagos.modelo.maestra.OrdenDePago;
 import com.jswitch.pagos.modelo.maestra.Remesa;
 import com.jswitch.persona.modelo.maestra.Persona;
 import com.jswitch.persona.modelo.maestra.PersonaNatural;
+import com.jswitch.siniestros.modelo.maestra.DetalleSiniestro;
 import com.jswitch.siniestros.modelo.maestra.DiagnosticoSiniestro;
+import com.jswitch.siniestros.modelo.maestra.detalle.Emergencia;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
@@ -52,6 +54,32 @@ public class ActualizarReportes {
                 + "ORDER BY P.detalleSiniestro.personaPago.id, P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.id ", "Carta 8½ x 11 Vertical", 
                 false, true, true, false));                
         
+
+        list.add(new Reporte(Dominios.CategoriaReporte.PAGOS, 0, "PAGO_D_FACTURAS_001", 
+                "PAGOS PAGADOS", 
+                "DESCRIP", 
+                "FROM " + Factura.class.getName() + " as P "
+                + "WHERE P.detalleSiniestro.etapaSiniestro.estatusSiniestro.nombre IN ('PAGADO') "
+                + "ORDER BY P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.nombre, P.detalleSiniestro.personaPago.id", "Carta 8½ x 11 Vertical", 
+                false, true, true, false));
+    
+        list.add(new Reporte(Dominios.CategoriaReporte.SINIESTROS, 0, "SINI_APS_D001", 
+                "ORDEN DE APS", 
+                "Orden de Atencion Médica Primaria", 
+                "FROM " + DetalleSiniestro.class.getName() + " as P "
+                + "WHERE P.id=31812 ",
+                //+ "ORDER BY P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.nombre, P.detalleSiniestro.personaPago.id", 
+                "Carta 8½ x 11 Vertical", 
+                false, true, true, false));              
+
+        list.add(new Reporte(Dominios.CategoriaReporte.EMERGENCIAS, 0, "SINI_EMERGENCIA_D001", 
+                "ORDEN DE EMERGECIA", 
+                "Orden de Emergencia", 
+                "FROM " + Emergencia.class.getName() + " as P "
+                + "WHERE P.id=33239 ",
+                //+ "ORDER BY P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.nombre, P.detalleSiniestro.personaPago.id", 
+                "Carta 8½ x 11 Vertical", 
+                false, true, true, false));            
         
         list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R001", "Listado de Ordenes de Pago por Remesa", "Agrupados por Remesa, Nombre de Persona a Pagar", "FROM " + OrdenDePago.class.getName() + " as P ORDER BY P.remesa.id, P.numeroOrden", "Carta 8½ x 11 Vertical", false, true, true, false));                
         list.add(new Reporte(Dominios.CategoriaReporte.REMESA, 0, "REM-R003", "Listado de Remesas", "Remesas cargadas", "FROM " + Remesa.class.getName() + " as P ORDER BY P.fechaPago", "Carta 8½ x 11 Horizontal", false, true, true, false));                
