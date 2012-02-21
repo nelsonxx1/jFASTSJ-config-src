@@ -45,6 +45,9 @@ public class ActualizarReportes {
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D001", "Personas x Nombre", "Todas las Personas", "FROM " + Persona.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,false));
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D002", "Personas, Telefono, Direccion", "Todas las Personas con sus Telefonos y Direcciones", "FROM " + Persona.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true, false));
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D003", "Personas Naturales, Fecha Nacimiento, Sexo, Telefono y Direccion.", "Personas segun su Tipo, con Telefonos y Direccions", "FROM " + PersonaNatural.class.getName() + " as P ORDER BY nombreLargo", "Carta 8½ x 11 Vertical", false, true, true, false));
+        list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D004", "Personas x Tipo", "Todas las Personas", "SELECT DISTINCT P.nombreLargo AS nombreLargo, T.nombre AS nombre FROM com.jswitch.persona.modelo.maestra.Persona AS P LEFT JOIN P.tiposPersona AS T ORDER BY T.nombre, P.nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,true));
+        list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D005", "Personas x Banco", "Todas las Personas", "SELECT DISTINCT P.nombreLargo AS nombreLargo, B.banco.nombreLargo AS nombre FROM com.jswitch.persona.modelo.maestra.Persona AS P LEFT JOIN P.cuentasBancarias AS B ORDER BY B.banco.nombreLargo, P.nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,true));
+
         
         list.add(new Reporte(Dominios.CategoriaReporte.PAGOS, 0, "PAGO_D_FACTURAS_001", 
                 "PAGOS PENDIENTES", 
