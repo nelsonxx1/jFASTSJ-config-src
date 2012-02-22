@@ -51,6 +51,14 @@ public class ActualizarVistas {
         }
         tx = s.beginTransaction();
         try {
+            System.out.println("view_sumadesglosecobertura:");
+            s.createSQLQuery("DROP TABLE IF EXISTS view_sumadesglosecobertura").executeUpdate();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+        }
+        tx = s.beginTransaction();
+        try {
             System.out.println("view_sumapartida:");
             s.createSQLQuery("DROP TABLE IF EXISTS view_sumapartida").executeUpdate();
             tx.commit();
@@ -75,7 +83,15 @@ public class ActualizarVistas {
         }
         tx = s.beginTransaction();
 
-        s.createSQLQuery(" DROP VIEW IF EXISTS view_agotamiento CASCADE;"
+        s.createSQLQuery("CREATE OR REPLACE VIEW view_sumadesglosecobertura AS "
+                + "  SELECT sini_detallesiniestro.id, sum(sini_desglosecobertura.montoamparado) AS montoamparado, sum(sini_desglosecobertura.montofacturado) AS montofacturado, sum(sini_desglosecobertura.montonoamparado) AS montonoamparado, sini_desglosecobertura.cobertura_id"
+                + "   FROM sini_desglosecobertura"
+                + "  CROSS JOIN sini_factura"
+                + "  CROSS JOIN sini_detallesiniestro"
+                + "  WHERE sini_desglosecobertura.factura_id = sini_factura.id AND sini_factura.detallesiniestro_id = sini_detallesiniestro.id"
+                + "  GROUP BY sini_desglosecobertura.cobertura_id, sini_detallesiniestro.id;"
+                + " ALTER TABLE view_sumadesglosecobertura OWNER TO postgres;"
+                + " DROP VIEW IF EXISTS view_agotamiento CASCADE;"
                 + " CREATE OR REPLACE VIEW view_agotamiento AS "
                 + " SELECT (siniestro2_.asegurado_id||'-'||diagnostic0_.diagnostico_id||'-'|| siniestro2_.ayo) AS id,"
                 + "siniestro2_.asegurado_id, diagnostic0_.diagnostico_id, sum("
