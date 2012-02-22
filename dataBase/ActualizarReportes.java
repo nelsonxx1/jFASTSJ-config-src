@@ -1,5 +1,6 @@
 package dataBase;
 
+import com.jswitch.asegurados.modelo.maestra.Asegurado;
 import java.util.ArrayList;
 import java.util.Date;
 import com.jswitch.base.modelo.Dominios;
@@ -48,6 +49,13 @@ public class ActualizarReportes {
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D004", "Personas x Tipo", "Todas las Personas", "SELECT DISTINCT P.nombreLargo AS nombreLargo, T.nombre AS nombre FROM com.jswitch.persona.modelo.maestra.Persona AS P LEFT JOIN P.tiposPersona AS T ORDER BY T.nombre, P.nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,true));
         list.add(new Reporte(Dominios.CategoriaReporte.PERSONAS, 0, "PER-D005", "Personas x Banco", "Todas las Personas", "SELECT DISTINCT P.nombreLargo AS nombreLargo, B.banco.nombreLargo AS nombre FROM com.jswitch.persona.modelo.maestra.Persona AS P LEFT JOIN P.cuentasBancarias AS B ORDER BY B.banco.nombreLargo, P.nombreLargo", "Carta 8½ x 11 Vertical", false, true, true,true));
 
+        list.add(new Reporte(Dominios.CategoriaReporte.ASEGURADOS, 0, "PAGO_D_FACTURAS_001", 
+                "ASEGURADOS ACTUALES EN EL FONDO ADMINISTRADO DE SALUD", 
+                "Todos los Asegurados que NO han egresado", 
+                "FROM " + Asegurado.class.getName() + " as P "
+                + "WHERE P.detalleSiniestro.personaPago.id=18017 AND P.detalleSiniestro.etapaSiniestro.idPropio IN ('LIQ','ORD_PAG') "
+                + "ORDER BY P.detalleSiniestro.personaPago.id, P.detalleSiniestro.siniestro.certificado.titular.tipoContrato.id ", "Carta 8½ x 11 Vertical", 
+                false, true, true, false));                        
         
         list.add(new Reporte(Dominios.CategoriaReporte.PAGOS, 0, "PAGO_D_FACTURAS_001", 
                 "PAGOS PENDIENTES", 
